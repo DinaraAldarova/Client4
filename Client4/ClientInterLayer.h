@@ -16,8 +16,8 @@ private:
 	c status;
 	string IP = "127.0.0.1";
 	int name;
-	list<string> files = { "1.txt", "2.txt", "3.txt" };
-	list<string> users = { "User1", "User2", "User3" };
+	list<string> files = {};
+	list<string> users = {};
 	string puth = "D:\\Client";
 	char buff[4096];
 	SOCKET client_socket;
