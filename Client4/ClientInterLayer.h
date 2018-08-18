@@ -23,11 +23,11 @@ private:
 	SOCKET client_socket;
 	sockaddr_in dest_addr;
 	u_short port = 665;
-	HOSTENT *hst;
+	//HOSTENT *hst;
 
 public:
-	bool isOutDated_UploadUsers = true;
-	bool isOutDated_DownloadFiles = true;
+	bool isOutDated_UploadUsers = false;
+	bool isOutDated_DownloadFiles = false;
 
 #pragma endregion
 

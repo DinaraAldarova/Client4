@@ -76,14 +76,14 @@ bool ClientInterLayer::Login(string new_IP)
 	}
 	else
 	{
-		//получить логин
+		//получить логин - name
 
+
+		/**/name = rand();
+		//загрузить files, users
 		status = c::avalible;
 //		return true;
 	}
-
-	
-	/**/name = rand();
 	return true;
 }
 
