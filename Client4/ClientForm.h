@@ -21,6 +21,8 @@ namespace Client4 {
 	{
 	public:
 		String ^ IP;
+	private: System::Windows::Forms::TextBox^  textBox_Log;
+	public:
 	public:	Thread ^ th;
 #pragma region Стандартная часть кода, ничего интересного
 	public:	ClientForm(void)
@@ -96,31 +98,32 @@ namespace Client4 {
 			 {
 				 this->components = (gcnew System::ComponentModel::Container());
 				 System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ClientForm::typeid));
-				 System::Windows::Forms::ListViewItem^  listViewItem21 = (gcnew System::Windows::Forms::ListViewItem(L"1"));
-				 System::Windows::Forms::ListViewItem^  listViewItem22 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
-				 System::Windows::Forms::ListViewItem^  listViewItem23 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
-				 System::Windows::Forms::ListViewItem^  listViewItem24 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
-				 System::Windows::Forms::ListViewItem^  listViewItem25 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
-				 System::Windows::Forms::ListViewItem^  listViewItem26 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
-				 System::Windows::Forms::ListViewItem^  listViewItem27 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
-				 System::Windows::Forms::ListViewItem^  listViewItem28 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
-				 System::Windows::Forms::ListViewItem^  listViewItem29 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
-				 System::Windows::Forms::ListViewItem^  listViewItem30 = (gcnew System::Windows::Forms::ListViewItem(L"15"));
-				 System::Windows::Forms::ListViewItem^  listViewItem31 = (gcnew System::Windows::Forms::ListViewItem(L"16"));
-				 System::Windows::Forms::ListViewItem^  listViewItem32 = (gcnew System::Windows::Forms::ListViewItem(L"2"));
-				 System::Windows::Forms::ListViewItem^  listViewItem33 = (gcnew System::Windows::Forms::ListViewItem(L"3"));
-				 System::Windows::Forms::ListViewItem^  listViewItem34 = (gcnew System::Windows::Forms::ListViewItem(L"4"));
-				 System::Windows::Forms::ListViewItem^  listViewItem35 = (gcnew System::Windows::Forms::ListViewItem(L"5"));
-				 System::Windows::Forms::ListViewItem^  listViewItem36 = (gcnew System::Windows::Forms::ListViewItem(L"6"));
-				 System::Windows::Forms::ListViewItem^  listViewItem37 = (gcnew System::Windows::Forms::ListViewItem(L"7"));
-				 System::Windows::Forms::ListViewItem^  listViewItem38 = (gcnew System::Windows::Forms::ListViewItem(L"8"));
-				 System::Windows::Forms::ListViewItem^  listViewItem39 = (gcnew System::Windows::Forms::ListViewItem(L"9"));
-				 System::Windows::Forms::ListViewItem^  listViewItem40 = (gcnew System::Windows::Forms::ListViewItem(L"Длинный 13"));
+				 System::Windows::Forms::ListViewItem^  listViewItem1 = (gcnew System::Windows::Forms::ListViewItem(L"1"));
+				 System::Windows::Forms::ListViewItem^  listViewItem2 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
+				 System::Windows::Forms::ListViewItem^  listViewItem3 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
+				 System::Windows::Forms::ListViewItem^  listViewItem4 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
+				 System::Windows::Forms::ListViewItem^  listViewItem5 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
+				 System::Windows::Forms::ListViewItem^  listViewItem6 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
+				 System::Windows::Forms::ListViewItem^  listViewItem7 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
+				 System::Windows::Forms::ListViewItem^  listViewItem8 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
+				 System::Windows::Forms::ListViewItem^  listViewItem9 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
+				 System::Windows::Forms::ListViewItem^  listViewItem10 = (gcnew System::Windows::Forms::ListViewItem(L"15"));
+				 System::Windows::Forms::ListViewItem^  listViewItem11 = (gcnew System::Windows::Forms::ListViewItem(L"16"));
+				 System::Windows::Forms::ListViewItem^  listViewItem12 = (gcnew System::Windows::Forms::ListViewItem(L"2"));
+				 System::Windows::Forms::ListViewItem^  listViewItem13 = (gcnew System::Windows::Forms::ListViewItem(L"3"));
+				 System::Windows::Forms::ListViewItem^  listViewItem14 = (gcnew System::Windows::Forms::ListViewItem(L"4"));
+				 System::Windows::Forms::ListViewItem^  listViewItem15 = (gcnew System::Windows::Forms::ListViewItem(L"5"));
+				 System::Windows::Forms::ListViewItem^  listViewItem16 = (gcnew System::Windows::Forms::ListViewItem(L"6"));
+				 System::Windows::Forms::ListViewItem^  listViewItem17 = (gcnew System::Windows::Forms::ListViewItem(L"7"));
+				 System::Windows::Forms::ListViewItem^  listViewItem18 = (gcnew System::Windows::Forms::ListViewItem(L"8"));
+				 System::Windows::Forms::ListViewItem^  listViewItem19 = (gcnew System::Windows::Forms::ListViewItem(L"9"));
+				 System::Windows::Forms::ListViewItem^  listViewItem20 = (gcnew System::Windows::Forms::ListViewItem(L"Длинный 13"));
 				 this->buttonLog = (gcnew System::Windows::Forms::Button());
 				 this->imageListLog = (gcnew System::Windows::Forms::ImageList(this->components));
 				 this->textBoxIP1 = (gcnew System::Windows::Forms::TextBox());
 				 this->label1 = (gcnew System::Windows::Forms::Label());
 				 this->tabPageDownload = (gcnew System::Windows::Forms::TabPage());
+				 this->label7 = (gcnew System::Windows::Forms::Label());
 				 this->comboBoxDownloadFiles = (gcnew System::Windows::Forms::ComboBox());
 				 this->tabPageUpload = (gcnew System::Windows::Forms::TabPage());
 				 this->groupBoxUpload_Loading = (gcnew System::Windows::Forms::GroupBox());
@@ -154,7 +157,7 @@ namespace Client4 {
 				 this->label5 = (gcnew System::Windows::Forms::Label());
 				 this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
 				 this->label6 = (gcnew System::Windows::Forms::Label());
-				 this->label7 = (gcnew System::Windows::Forms::Label());
+				 this->textBox_Log = (gcnew System::Windows::Forms::TextBox());
 				 this->tabPageDownload->SuspendLayout();
 				 this->tabPageUpload->SuspendLayout();
 				 this->groupBoxUpload_Loading->SuspendLayout();
@@ -184,6 +187,7 @@ namespace Client4 {
 				 // 
 				 // textBoxIP1
 				 // 
+				 this->textBoxIP1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->textBoxIP1->BackColor = System::Drawing::SystemColors::Window;
 				 this->textBoxIP1->BorderStyle = System::Windows::Forms::BorderStyle::None;
 				 this->textBoxIP1->Location = System::Drawing::Point(266, 31);
@@ -198,6 +202,7 @@ namespace Client4 {
 				 // 
 				 // label1
 				 // 
+				 this->label1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->label1->AutoSize = true;
 				 this->label1->BackColor = System::Drawing::SystemColors::Window;
 				 this->label1->Location = System::Drawing::Point(282, 31);
@@ -217,6 +222,15 @@ namespace Client4 {
 				 this->tabPageDownload->TabIndex = 2;
 				 this->tabPageDownload->Text = L"Скачать";
 				 this->tabPageDownload->UseVisualStyleBackColor = true;
+				 // 
+				 // label7
+				 // 
+				 this->label7->AutoSize = true;
+				 this->label7->Location = System::Drawing::Point(45, 30);
+				 this->label7->Name = L"label7";
+				 this->label7->Size = System::Drawing::Size(89, 13);
+				 this->label7->TabIndex = 1;
+				 this->label7->Text = L"Выберите файл:";
 				 // 
 				 // comboBoxDownloadFiles
 				 // 
@@ -250,9 +264,9 @@ namespace Client4 {
 				 this->groupBoxUpload_Loading->Controls->Add(this->buttonUpload_Pause);
 				 this->groupBoxUpload_Loading->Controls->Add(this->buttonUpload_Cancel);
 				 this->groupBoxUpload_Loading->Controls->Add(this->progressBarUpload_Loading);
-				 this->groupBoxUpload_Loading->Location = System::Drawing::Point(6, 208);
+				 this->groupBoxUpload_Loading->Location = System::Drawing::Point(6, 224);
 				 this->groupBoxUpload_Loading->Name = L"groupBoxUpload_Loading";
-				 this->groupBoxUpload_Loading->Size = System::Drawing::Size(379, 91);
+				 this->groupBoxUpload_Loading->Size = System::Drawing::Size(379, 98);
 				 this->groupBoxUpload_Loading->TabIndex = 9;
 				 this->groupBoxUpload_Loading->TabStop = false;
 				 this->groupBoxUpload_Loading->Text = L"Идет загрузка...";
@@ -260,7 +274,7 @@ namespace Client4 {
 				 // buttonUpload_Pause
 				 // 
 				 this->buttonUpload_Pause->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left));
-				 this->buttonUpload_Pause->Location = System::Drawing::Point(6, 62);
+				 this->buttonUpload_Pause->Location = System::Drawing::Point(6, 69);
 				 this->buttonUpload_Pause->Name = L"buttonUpload_Pause";
 				 this->buttonUpload_Pause->Size = System::Drawing::Size(75, 23);
 				 this->buttonUpload_Pause->TabIndex = 2;
@@ -270,7 +284,7 @@ namespace Client4 {
 				 // buttonUpload_Cancel
 				 // 
 				 this->buttonUpload_Cancel->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-				 this->buttonUpload_Cancel->Location = System::Drawing::Point(298, 62);
+				 this->buttonUpload_Cancel->Location = System::Drawing::Point(298, 69);
 				 this->buttonUpload_Cancel->Name = L"buttonUpload_Cancel";
 				 this->buttonUpload_Cancel->Size = System::Drawing::Size(75, 23);
 				 this->buttonUpload_Cancel->TabIndex = 1;
@@ -288,7 +302,7 @@ namespace Client4 {
 				 // buttonUpload
 				 // 
 				 this->buttonUpload->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
-				 this->buttonUpload->Location = System::Drawing::Point(6, 165);
+				 this->buttonUpload->Location = System::Drawing::Point(6, 195);
 				 this->buttonUpload->Name = L"buttonUpload";
 				 this->buttonUpload->Size = System::Drawing::Size(379, 23);
 				 this->buttonUpload->TabIndex = 8;
@@ -298,13 +312,14 @@ namespace Client4 {
 				 // groupBoxUpload_Access
 				 // 
 				 this->groupBoxUpload_Access->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
+				 this->groupBoxUpload_Access->AutoSize = true;
 				 this->groupBoxUpload_Access->Controls->Add(this->radioButtonPublic);
 				 this->groupBoxUpload_Access->Controls->Add(this->radioButtonProtected);
 				 this->groupBoxUpload_Access->Controls->Add(this->listViewUpload_Names);
 				 this->groupBoxUpload_Access->Controls->Add(this->radioButtonPrivate);
-				 this->groupBoxUpload_Access->Location = System::Drawing::Point(6, 71);
+				 this->groupBoxUpload_Access->Location = System::Drawing::Point(6, 72);
 				 this->groupBoxUpload_Access->Name = L"groupBoxUpload_Access";
-				 this->groupBoxUpload_Access->Size = System::Drawing::Size(379, 88);
+				 this->groupBoxUpload_Access->Size = System::Drawing::Size(379, 117);
 				 this->groupBoxUpload_Access->TabIndex = 7;
 				 this->groupBoxUpload_Access->TabStop = false;
 				 this->groupBoxUpload_Access->Text = L"Доступ к файлу:";
@@ -334,38 +349,38 @@ namespace Client4 {
 				 // 
 				 this->listViewUpload_Names->Dock = System::Windows::Forms::DockStyle::Right;
 				 this->listViewUpload_Names->HideSelection = false;
-				 listViewItem21->StateImageIndex = 0;
-				 listViewItem22->StateImageIndex = 0;
-				 listViewItem22->UseItemStyleForSubItems = false;
-				 listViewItem23->StateImageIndex = 0;
-				 listViewItem24->StateImageIndex = 0;
-				 listViewItem25->StateImageIndex = 0;
-				 listViewItem26->StateImageIndex = 0;
-				 listViewItem27->StateImageIndex = 0;
-				 listViewItem28->StateImageIndex = 0;
-				 listViewItem29->StateImageIndex = 0;
-				 listViewItem30->StateImageIndex = 0;
-				 listViewItem31->StateImageIndex = 0;
-				 listViewItem32->StateImageIndex = 0;
-				 listViewItem33->StateImageIndex = 0;
-				 listViewItem34->StateImageIndex = 0;
-				 listViewItem35->StateImageIndex = 0;
-				 listViewItem36->StateImageIndex = 0;
-				 listViewItem37->StateImageIndex = 0;
-				 listViewItem38->StateImageIndex = 0;
-				 listViewItem39->StateImageIndex = 0;
-				 listViewItem40->StateImageIndex = 0;
+				 listViewItem1->StateImageIndex = 0;
+				 listViewItem2->StateImageIndex = 0;
+				 listViewItem2->UseItemStyleForSubItems = false;
+				 listViewItem3->StateImageIndex = 0;
+				 listViewItem4->StateImageIndex = 0;
+				 listViewItem5->StateImageIndex = 0;
+				 listViewItem6->StateImageIndex = 0;
+				 listViewItem7->StateImageIndex = 0;
+				 listViewItem8->StateImageIndex = 0;
+				 listViewItem9->StateImageIndex = 0;
+				 listViewItem10->StateImageIndex = 0;
+				 listViewItem11->StateImageIndex = 0;
+				 listViewItem12->StateImageIndex = 0;
+				 listViewItem13->StateImageIndex = 0;
+				 listViewItem14->StateImageIndex = 0;
+				 listViewItem15->StateImageIndex = 0;
+				 listViewItem16->StateImageIndex = 0;
+				 listViewItem17->StateImageIndex = 0;
+				 listViewItem18->StateImageIndex = 0;
+				 listViewItem19->StateImageIndex = 0;
+				 listViewItem20->StateImageIndex = 0;
 				 this->listViewUpload_Names->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem^  >(20) {
-					 listViewItem21,
-						 listViewItem22, listViewItem23, listViewItem24, listViewItem25, listViewItem26, listViewItem27, listViewItem28, listViewItem29,
-						 listViewItem30, listViewItem31, listViewItem32, listViewItem33, listViewItem34, listViewItem35, listViewItem36, listViewItem37,
-						 listViewItem38, listViewItem39, listViewItem40
+					 listViewItem1,
+						 listViewItem2, listViewItem3, listViewItem4, listViewItem5, listViewItem6, listViewItem7, listViewItem8, listViewItem9, listViewItem10,
+						 listViewItem11, listViewItem12, listViewItem13, listViewItem14, listViewItem15, listViewItem16, listViewItem17, listViewItem18,
+						 listViewItem19, listViewItem20
 				 });
 				 this->listViewUpload_Names->LabelWrap = false;
 				 this->listViewUpload_Names->Location = System::Drawing::Point(111, 16);
 				 this->listViewUpload_Names->Name = L"listViewUpload_Names";
 				 this->listViewUpload_Names->ShowGroups = false;
-				 this->listViewUpload_Names->Size = System::Drawing::Size(265, 69);
+				 this->listViewUpload_Names->Size = System::Drawing::Size(265, 98);
 				 this->listViewUpload_Names->Sorting = System::Windows::Forms::SortOrder::Ascending;
 				 this->listViewUpload_Names->TabIndex = 2;
 				 this->listViewUpload_Names->UseCompatibleStateImageBehavior = false;
@@ -386,13 +401,12 @@ namespace Client4 {
 				 // 
 				 // groupBoxUpload_Puth
 				 // 
-				 this->groupBoxUpload_Puth->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
-					 | System::Windows::Forms::AnchorStyles::Right));
+				 this->groupBoxUpload_Puth->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
 				 this->groupBoxUpload_Puth->Controls->Add(this->buttonUpload_FileDialog);
 				 this->groupBoxUpload_Puth->Controls->Add(this->labelUpload_Puth);
 				 this->groupBoxUpload_Puth->Location = System::Drawing::Point(6, 6);
 				 this->groupBoxUpload_Puth->Name = L"groupBoxUpload_Puth";
-				 this->groupBoxUpload_Puth->Size = System::Drawing::Size(379, 59);
+				 this->groupBoxUpload_Puth->Size = System::Drawing::Size(379, 60);
 				 this->groupBoxUpload_Puth->TabIndex = 6;
 				 this->groupBoxUpload_Puth->TabStop = false;
 				 this->groupBoxUpload_Puth->Text = L"Путь к файлу:";
@@ -400,7 +414,7 @@ namespace Client4 {
 				 // buttonUpload_FileDialog
 				 // 
 				 this->buttonUpload_FileDialog->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
-				 this->buttonUpload_FileDialog->Location = System::Drawing::Point(298, 30);
+				 this->buttonUpload_FileDialog->Location = System::Drawing::Point(298, 31);
 				 this->buttonUpload_FileDialog->Name = L"buttonUpload_FileDialog";
 				 this->buttonUpload_FileDialog->Size = System::Drawing::Size(75, 23);
 				 this->buttonUpload_FileDialog->TabIndex = 4;
@@ -414,13 +428,14 @@ namespace Client4 {
 				 this->labelUpload_Puth->Dock = System::Windows::Forms::DockStyle::Fill;
 				 this->labelUpload_Puth->Location = System::Drawing::Point(3, 16);
 				 this->labelUpload_Puth->Name = L"labelUpload_Puth";
-				 this->labelUpload_Puth->Size = System::Drawing::Size(373, 40);
+				 this->labelUpload_Puth->Size = System::Drawing::Size(373, 41);
 				 this->labelUpload_Puth->TabIndex = 3;
 				 this->labelUpload_Puth->Text = L"D:\\Client************************************************************************"
 					 L"*****************************";
 				 // 
 				 // tabPageMessage
 				 // 
+				 this->tabPageMessage->Controls->Add(this->textBox_Log);
 				 this->tabPageMessage->Controls->Add(this->labelMessages);
 				 this->tabPageMessage->Location = System::Drawing::Point(4, 22);
 				 this->tabPageMessage->Name = L"tabPageMessage";
@@ -432,13 +447,16 @@ namespace Client4 {
 				 // 
 				 // labelMessages
 				 // 
-				 this->labelMessages->Location = System::Drawing::Point(3, 3);
+				 this->labelMessages->Location = System::Drawing::Point(3, 0);
 				 this->labelMessages->Name = L"labelMessages";
 				 this->labelMessages->Size = System::Drawing::Size(382, 322);
 				 this->labelMessages->TabIndex = 0;
 				 // 
 				 // tabControl1
 				 // 
+				 this->tabControl1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+					 | System::Windows::Forms::AnchorStyles::Left)
+					 | System::Windows::Forms::AnchorStyles::Right));
 				 this->tabControl1->Controls->Add(this->tabPageUpload);
 				 this->tabControl1->Controls->Add(this->tabPageDownload);
 				 this->tabControl1->Controls->Add(this->tabPageMessage);
@@ -451,6 +469,7 @@ namespace Client4 {
 				 // 
 				 // textBoxIP2
 				 // 
+				 this->textBoxIP2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->textBoxIP2->BackColor = System::Drawing::SystemColors::Window;
 				 this->textBoxIP2->BorderStyle = System::Windows::Forms::BorderStyle::None;
 				 this->textBoxIP2->Location = System::Drawing::Point(290, 31);
@@ -465,6 +484,7 @@ namespace Client4 {
 				 // 
 				 // label2
 				 // 
+				 this->label2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->label2->AutoSize = true;
 				 this->label2->BackColor = System::Drawing::SystemColors::Window;
 				 this->label2->Location = System::Drawing::Point(306, 31);
@@ -475,6 +495,7 @@ namespace Client4 {
 				 // 
 				 // textBoxIP4
 				 // 
+				 this->textBoxIP4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->textBoxIP4->BackColor = System::Drawing::SystemColors::Window;
 				 this->textBoxIP4->BorderStyle = System::Windows::Forms::BorderStyle::None;
 				 this->textBoxIP4->Location = System::Drawing::Point(338, 31);
@@ -489,6 +510,7 @@ namespace Client4 {
 				 // 
 				 // textBoxIP3
 				 // 
+				 this->textBoxIP3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->textBoxIP3->BackColor = System::Drawing::SystemColors::Window;
 				 this->textBoxIP3->BorderStyle = System::Windows::Forms::BorderStyle::None;
 				 this->textBoxIP3->Location = System::Drawing::Point(314, 31);
@@ -503,6 +525,7 @@ namespace Client4 {
 				 // 
 				 // label3
 				 // 
+				 this->label3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->label3->AutoSize = true;
 				 this->label3->BackColor = System::Drawing::SystemColors::Window;
 				 this->label3->Location = System::Drawing::Point(330, 31);
@@ -513,6 +536,7 @@ namespace Client4 {
 				 // 
 				 // label4
 				 // 
+				 this->label4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->label4->BackColor = System::Drawing::SystemColors::Window;
 				 this->label4->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 				 this->label4->Location = System::Drawing::Point(263, 25);
@@ -540,6 +564,7 @@ namespace Client4 {
 				 // 
 				 // buttonHome
 				 // 
+				 this->buttonHome->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->buttonHome->ImageKey = L"home";
 				 this->buttonHome->ImageList = this->imageListHome;
 				 this->buttonHome->Location = System::Drawing::Point(365, 12);
@@ -562,6 +587,7 @@ namespace Client4 {
 				 // 
 				 // label5
 				 // 
+				 this->label5->Anchor = System::Windows::Forms::AnchorStyles::Top;
 				 this->label5->AutoSize = true;
 				 this->label5->Location = System::Drawing::Point(127, 12);
 				 this->label5->Name = L"label5";
@@ -572,6 +598,8 @@ namespace Client4 {
 				 // 
 				 // progressBar1
 				 // 
+				 this->progressBar1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+					 | System::Windows::Forms::AnchorStyles::Right));
 				 this->progressBar1->Location = System::Drawing::Point(116, 48);
 				 this->progressBar1->MarqueeAnimationSpeed = 50;
 				 this->progressBar1->Name = L"progressBar1";
@@ -583,6 +611,7 @@ namespace Client4 {
 				 // 
 				 // label6
 				 // 
+				 this->label6->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 				 this->label6->AutoSize = true;
 				 this->label6->Location = System::Drawing::Point(162, 29);
 				 this->label6->Name = L"label6";
@@ -590,14 +619,16 @@ namespace Client4 {
 				 this->label6->TabIndex = 19;
 				 this->label6->Text = L"IP-адрес сервера:";
 				 // 
-				 // label7
+				 // textBox_Log
 				 // 
-				 this->label7->AutoSize = true;
-				 this->label7->Location = System::Drawing::Point(45, 30);
-				 this->label7->Name = L"label7";
-				 this->label7->Size = System::Drawing::Size(89, 13);
-				 this->label7->TabIndex = 1;
-				 this->label7->Text = L"Выберите файл:";
+				 this->textBox_Log->BackColor = System::Drawing::SystemColors::Window;
+				 this->textBox_Log->Dock = System::Windows::Forms::DockStyle::Fill;
+				 this->textBox_Log->Location = System::Drawing::Point(3, 3);
+				 this->textBox_Log->Multiline = true;
+				 this->textBox_Log->Name = L"textBox_Log";
+				 this->textBox_Log->ReadOnly = true;
+				 this->textBox_Log->Size = System::Drawing::Size(385, 322);
+				 this->textBox_Log->TabIndex = 1;
 				 // 
 				 // ClientForm
 				 // 
@@ -619,17 +650,20 @@ namespace Client4 {
 				 this->Controls->Add(this->buttonLog);
 				 this->Controls->Add(this->label1);
 				 this->Controls->Add(this->label4);
+				 this->MinimumSize = System::Drawing::Size(439, 469);
 				 this->Name = L"ClientForm";
 				 this->Text = L"ClientForm";
 				 this->Load += gcnew System::EventHandler(this, &ClientForm::ClientForm_Load);
 				 this->tabPageDownload->ResumeLayout(false);
 				 this->tabPageDownload->PerformLayout();
 				 this->tabPageUpload->ResumeLayout(false);
+				 this->tabPageUpload->PerformLayout();
 				 this->groupBoxUpload_Loading->ResumeLayout(false);
 				 this->groupBoxUpload_Access->ResumeLayout(false);
 				 this->groupBoxUpload_Access->PerformLayout();
 				 this->groupBoxUpload_Puth->ResumeLayout(false);
 				 this->tabPageMessage->ResumeLayout(false);
+				 this->tabPageMessage->PerformLayout();
 				 this->tabControl1->ResumeLayout(false);
 				 this->ResumeLayout(false);
 				 this->PerformLayout();
