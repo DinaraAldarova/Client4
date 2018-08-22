@@ -20,7 +20,7 @@ private:
 	list<string> users = {};
 	string puth = "D:\\Client";
 	char buff[4096];
-	SOCKET client_socket;
+	SOCKET sock;
 	sockaddr_in dest_addr;
 	u_short port = 665;
 	//HOSTENT *hst;
