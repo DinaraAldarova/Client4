@@ -39,6 +39,7 @@ namespace Client4 {
 		/// </summary>
 		~ClientForm()
 		{
+			client.Exit();
 			if (components)
 			{
 				delete components;

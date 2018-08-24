@@ -22,7 +22,7 @@ private:
 	char buff[4096];
 	SOCKET sock;
 	sockaddr_in dest_addr;
-	u_short port = 665;
+	const u_short port = 665;
 	//HOSTENT *hst;
 
 public:
@@ -48,13 +48,14 @@ public:
 
 #pragma region Логика работы клиента
 private:
-	void Exit();
+	
 	
 public:
 	bool Login(string IP);
 	bool Logout();
 	bool Connect();
 	bool Disconnect();
+	void Exit();
 
 #pragma endregion
 

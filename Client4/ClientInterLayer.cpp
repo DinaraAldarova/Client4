@@ -10,6 +10,7 @@ ClientInterLayer::ClientInterLayer()
 	if (sock < 0)
 		Exit();//error, может вылететь!
 	dest_addr.sin_family = AF_INET;
+	dest_addr.sin_port = htons(port);
 }
 
 #pragma region get- и set-методы
@@ -63,7 +64,6 @@ list<string> ClientInterLayer::getUsers()
 bool ClientInterLayer::Login(string new_IP)
 {
 	IP = new_IP;
-	dest_addr.sin_port = htons(port);
 	if (inet_addr(IP.c_str()) != INADDR_NONE)
 		dest_addr.sin_addr.s_addr = inet_addr(IP.c_str());
 	else
@@ -81,11 +81,12 @@ bool ClientInterLayer::Login(string new_IP)
 		{
 			//ошибка сокета
 		}
-		else if (/*число*/ true)
+		else
 		{
 			name = atoi(buff);
+			if (name == 0)
+				/*сервер отправил что-то другое*/;
 		}
-		/**/name = rand();
 		//загрузить files, users
 		status = c::avalible;
 //		return true;
@@ -102,6 +103,7 @@ bool ClientInterLayer::Logout()
 	//Сервер - Logout
 	name = 0;
 	Disconnect();
+	closesocket(sock);
 	status = c::stopped;
 	return true;
 }
@@ -128,7 +130,8 @@ bool ClientInterLayer::Disconnect()
 
 void ClientInterLayer::Exit()
 {
-	closesocket(sock);
+	if (sock >= 0)
+		closesocket(sock);
 	WSACleanup();
 	exit(0);
 }
