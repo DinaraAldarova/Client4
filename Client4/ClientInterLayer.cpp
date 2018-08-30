@@ -6,8 +6,8 @@ ClientInterLayer::ClientInterLayer()
 	status = c::stopped;
 	if (WSAStartup(0x202, (WSADATA *)&buff[0]))
 		Exit();//error, может вылететь! (закроет не открытое)
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock < 0)
+	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sock == INVALID_SOCKET)
 		Exit();//error, может вылететь!
 	dest_addr.sin_family = AF_INET;
 	dest_addr.sin_port = htons(port);
@@ -69,7 +69,7 @@ bool ClientInterLayer::Login(string new_IP)
 	else
 		Exit();
 
-	if (connect(sock, (sockaddr *)&dest_addr, sizeof(dest_addr)))
+	if (connect(sock, (sockaddr *)&dest_addr, sizeof(dest_addr)) != 0)
 	{
 		//не могу подключиться
 		return false;
@@ -79,17 +79,17 @@ bool ClientInterLayer::Login(string new_IP)
 		//получить логин - name
 		if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
 		{
-			//ошибка сокета
+			;//ошибка сокета
 		}
 		else
 		{
 			name = atoi(buff);
 			if (name == 0)
-				/*сервер отправил что-то другое*/;
+				;/*сервер отправил что-то другое*/
 		}
 		//загрузить files, users
 		status = c::avalible;
-//		return true;
+		//		return true;
 	}
 	return true;
 }
