@@ -6,9 +6,6 @@ ClientInterLayer::ClientInterLayer()
 	status = c::stopped;
 	if (WSAStartup(0x202, (WSADATA *)&buff[0]))
 		Exit();//error, может вылететь! (закроет не открытое)
-	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (sock == INVALID_SOCKET)
-		Exit();//error, может вылететь!
 	dest_addr.sin_family = AF_INET;
 	dest_addr.sin_port = htons(port);
 }
@@ -69,6 +66,10 @@ bool ClientInterLayer::Login(string new_IP)
 	else
 		Exit();
 
+	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sock == INVALID_SOCKET)
+		Exit();//error, может вылететь!
+
 	if (connect(sock, (sockaddr *)&dest_addr, sizeof(dest_addr)) != 0)
 	{
 		//не могу подключиться
@@ -76,6 +77,8 @@ bool ClientInterLayer::Login(string new_IP)
 	}
 	else
 	{
+		strcpy(buff, "new");
+		send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
 		//получить логин - name
 		if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
 		{
@@ -89,9 +92,8 @@ bool ClientInterLayer::Login(string new_IP)
 		}
 		//загрузить files, users
 		status = c::avalible;
-		//		return true;
+		return true;
 	}
-	return true;
 }
 
 bool ClientInterLayer::Logout()
@@ -99,39 +101,67 @@ bool ClientInterLayer::Logout()
 	if (status == c::logged)
 	{
 		Connect();
+		//Сервер - Logout
+		strcpy(buff, "logout");
+		send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
 	}
-	//Сервер - Logout
+
 	name = 0;
-	Disconnect();
-	closesocket(sock);
+	if (sock >= 0)
+		closesocket(sock);
 	status = c::stopped;
 	return true;
 }
 
 bool ClientInterLayer::Connect()
 {
+	if (inet_addr(IP.c_str()) != INADDR_NONE)
+		dest_addr.sin_addr.s_addr = inet_addr(IP.c_str());
+	else
+		Exit();
+
+	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sock == INVALID_SOCKET)
+		Exit();//error, может вылететь!
+
 	if (connect(sock, (sockaddr *)&dest_addr, sizeof(dest_addr)))
 	{
 		//не могу подключиться
 		return false;
 	}
 	//отправить ему свое имя и получить подтверждение
+	itoa(name, buff, 10);
+	send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
 
-	status = c::avalible;
-	return true;
+	if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
+	{
+		;//ошибка сокета
+	}
+	else if (strcmp(buff, "done") == 0)
+	{
+		status = c::avalible;
+		return true;
+	}
+	else
+		//что-то другое
+		return false;
 }
 
 bool ClientInterLayer::Disconnect()
 {
 	//Сервер - Pause
+	strcpy(buff, "pause");
+	send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+
+	if (sock >= 0)
+		closesocket(sock);
 	status = c::logged;
 	return true;
 }
 
 void ClientInterLayer::Exit()
 {
-	if (sock >= 0)
-		closesocket(sock);
+	Logout();
 	WSACleanup();
 	exit(0);
 }
