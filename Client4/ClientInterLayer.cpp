@@ -78,7 +78,7 @@ bool ClientInterLayer::Login(string new_IP)
 	else
 	{
 		strcpy(buff, "new");
-		send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+		send_buff();
 		//получить логин - name
 		if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
 		{
@@ -91,6 +91,8 @@ bool ClientInterLayer::Login(string new_IP)
 				;/*сервер отправил что-то другое*/
 		}
 		//загрузить files, users
+		Update();
+
 		status = c::avalible;
 		return true;
 	}
@@ -103,7 +105,7 @@ bool ClientInterLayer::Logout()
 		Connect();
 		//Сервер - Logout
 		strcpy(buff, "logout");
-		send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+		send_buff();
 	}
 
 	name = 0;
@@ -131,7 +133,7 @@ bool ClientInterLayer::Connect()
 	}
 	//отправить ему свое имя и получить подтверждение
 	itoa(name, buff, 10);
-	send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+	send_buff();
 
 	if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
 	{
@@ -151,12 +153,42 @@ bool ClientInterLayer::Disconnect()
 {
 	//Сервер - Pause
 	strcpy(buff, "pause");
-	send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+	send_buff();
 
 	if (sock >= 0)
 		closesocket(sock);
 	status = c::logged;
 	return true;
+}
+
+bool ClientInterLayer::Update()
+{
+	strcpy(buff, "update");
+	send_buff();
+
+	if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
+	{
+		;//ошибка сокета
+	}
+	else
+	{
+		
+	}
+}
+
+int ClientInterLayer::send_buff()
+{
+	return send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+}
+
+int ClientInterLayer::receive()
+{
+	int res;
+	if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
+	{
+		;//ошибка сокета
+	}
+	return res;
 }
 
 void ClientInterLayer::Exit()

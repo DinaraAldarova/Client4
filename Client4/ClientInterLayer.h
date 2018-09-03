@@ -55,6 +55,9 @@ public:
 	bool Logout();
 	bool Connect();
 	bool Disconnect();
+	bool Update();
+	int send_buff();
+	int receive();
 	void Exit();
 
 #pragma endregion
