@@ -141,6 +141,7 @@ namespace Client4 {
 				 this->buttonUpload_FileDialog = (gcnew System::Windows::Forms::Button());
 				 this->labelUpload_Puth = (gcnew System::Windows::Forms::Label());
 				 this->tabPageMessage = (gcnew System::Windows::Forms::TabPage());
+				 this->textBox_Log = (gcnew System::Windows::Forms::TextBox());
 				 this->labelMessages = (gcnew System::Windows::Forms::Label());
 				 this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 				 this->textBoxIP2 = (gcnew System::Windows::Forms::TextBox());
@@ -158,7 +159,6 @@ namespace Client4 {
 				 this->label5 = (gcnew System::Windows::Forms::Label());
 				 this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
 				 this->label6 = (gcnew System::Windows::Forms::Label());
-				 this->textBox_Log = (gcnew System::Windows::Forms::TextBox());
 				 this->tabPageDownload->SuspendLayout();
 				 this->tabPageUpload->SuspendLayout();
 				 this->groupBoxUpload_Loading->SuspendLayout();
@@ -446,6 +446,17 @@ namespace Client4 {
 				 this->tabPageMessage->Text = L"Сообщения";
 				 this->tabPageMessage->UseVisualStyleBackColor = true;
 				 // 
+				 // textBox_Log
+				 // 
+				 this->textBox_Log->BackColor = System::Drawing::SystemColors::Window;
+				 this->textBox_Log->Dock = System::Windows::Forms::DockStyle::Fill;
+				 this->textBox_Log->Location = System::Drawing::Point(3, 3);
+				 this->textBox_Log->Multiline = true;
+				 this->textBox_Log->Name = L"textBox_Log";
+				 this->textBox_Log->ReadOnly = true;
+				 this->textBox_Log->Size = System::Drawing::Size(385, 322);
+				 this->textBox_Log->TabIndex = 1;
+				 // 
 				 // labelMessages
 				 // 
 				 this->labelMessages->Location = System::Drawing::Point(3, 0);
@@ -467,6 +478,7 @@ namespace Client4 {
 				 this->tabControl1->SelectedIndex = 0;
 				 this->tabControl1->Size = System::Drawing::Size(399, 354);
 				 this->tabControl1->TabIndex = 1;
+				 this->tabControl1->Click += gcnew System::EventHandler(this, &ClientForm::tabControl1_Click);
 				 // 
 				 // textBoxIP2
 				 // 
@@ -619,17 +631,6 @@ namespace Client4 {
 				 this->label6->Size = System::Drawing::Size(98, 13);
 				 this->label6->TabIndex = 19;
 				 this->label6->Text = L"IP-адрес сервера:";
-				 // 
-				 // textBox_Log
-				 // 
-				 this->textBox_Log->BackColor = System::Drawing::SystemColors::Window;
-				 this->textBox_Log->Dock = System::Windows::Forms::DockStyle::Fill;
-				 this->textBox_Log->Location = System::Drawing::Point(3, 3);
-				 this->textBox_Log->Multiline = true;
-				 this->textBox_Log->Name = L"textBox_Log";
-				 this->textBox_Log->ReadOnly = true;
-				 this->textBox_Log->Size = System::Drawing::Size(385, 322);
-				 this->textBox_Log->TabIndex = 1;
 				 // 
 				 // ClientForm
 				 // 
@@ -798,7 +799,7 @@ namespace Client4 {
 				 if (status == c::connected)
 				 {
 					 //сервер не доступен
-					 th = gcnew Thread(gcnew ThreadStart(this, &ClientForm::wait_progressBar));
+					 th = gcnew Thread(gcnew ThreadStart(this, &ClientForm::wait_progressBar1));
 					 th->Start();
 				 }
 			 }
@@ -829,22 +830,22 @@ namespace Client4 {
 		}
 
 	}
-	private: void wait_progressBar()
+	private: void wait_progressBar1()
 	{
-		Invoke(gcnew Action(this, &ClientForm::start_progressBar));
+		Invoke(gcnew Action(this, &ClientForm::start_progressBar1));
 		while (client.Status() == c::connected)
 		{
 			Thread::CurrentThread->Sleep(2000);
 		}
-		Invoke(gcnew Action(this, &ClientForm::stop_progressBar));
+		Invoke(gcnew Action(this, &ClientForm::stop_progressBar1));
 	}
-	private: void start_progressBar()
+	private: void start_progressBar1()
 	{
 		ClientForm::label5->Visible = true;
 		ClientForm::progressBar1->Visible = true;
 		ClientForm::progressBar1->Style = ProgressBarStyle::Marquee;
 	}
-	private: void stop_progressBar()
+	private: void stop_progressBar1()
 	{
 		ClientForm::label5->Visible = false;
 		ClientForm::progressBar1->Style = ProgressBarStyle::Continuous;
@@ -909,5 +910,7 @@ namespace Client4 {
 		openFileDialog->ShowDialog();
 		labelUpload_Puth->Text = openFileDialog->FileName;
 	}
-	};
+	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e) {
+	}
+};
 }

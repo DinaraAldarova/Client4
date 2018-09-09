@@ -64,11 +64,11 @@ bool ClientInterLayer::Login(string new_IP)
 	if (inet_addr(IP.c_str()) != INADDR_NONE)
 		dest_addr.sin_addr.s_addr = inet_addr(IP.c_str());
 	else
-		Exit();
+		return false;
 
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (sock == INVALID_SOCKET)
-		Exit();//error, может вылететь!
+		return false;
 
 	if (connect(sock, (sockaddr *)&dest_addr, sizeof(dest_addr)) != 0)
 	{
@@ -80,16 +80,11 @@ bool ClientInterLayer::Login(string new_IP)
 		strcpy(buff, "new");
 		send_buff();
 		//получить логин - name
-		if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
-		{
-			;//ошибка сокета
-		}
-		else
-		{
-			name = atoi(buff);
-			if (name == 0)
-				;/*сервер отправил что-то другое*/
-		}
+		if (receive()) return false;
+		name = atoi(buff);
+		if (name == 0)
+			;/*сервер отправил что-то другое*/
+
 		//загрузить files, users
 		Update();
 
@@ -102,10 +97,12 @@ bool ClientInterLayer::Logout()
 {
 	if (status == c::logged)
 	{
-		Connect();
-		//Сервер - Logout
-		strcpy(buff, "logout");
-		send_buff();
+		if (!Connect())
+		{
+			//Сервер - Logout
+			strcpy(buff, "logout");
+			send_buff();
+		}
 	}
 
 	name = 0;
@@ -135,13 +132,11 @@ bool ClientInterLayer::Connect()
 	itoa(name, buff, 10);
 	send_buff();
 
-	if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
-	{
-		;//ошибка сокета
-	}
-	else if (strcmp(buff, "done") == 0)
+	if (receive()) return false;
+	if (strcmp(buff, "done") == 0)
 	{
 		status = c::avalible;
+		Update();
 		return true;
 	}
 	else
@@ -166,14 +161,44 @@ bool ClientInterLayer::Update()
 	strcpy(buff, "update");
 	send_buff();
 
-	if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
+	if (receive()) return false;
+	files.clear();
+	while (strcmp(buff, "done") != 0)
 	{
-		;//ошибка сокета
+		int i = 0;// , j = 0;
+		while (buff[i] != '*')
+		{
+			string s = "";
+			while (buff[i] != '|')
+			{
+				s += buff[i];
+				i++;
+			}
+			files.push_back(s);
+			i++;
+		}
+		if (receive()) return false;
 	}
-	else
+
+	if (receive()) return false;
+	users.clear();
+	while (strcmp(buff, "done") != 0)
 	{
-		
+		int i = 0;// , j = 0;
+		while (buff[i] != '*')
+		{
+			string s = "";
+			while (buff[i] != '|')
+			{
+				s += buff[i];
+				i++;
+			}
+			users.push_back(s);
+			i++;
+		}
+		if (receive()) return false;
 	}
+	return true;
 }
 
 int ClientInterLayer::send_buff()
@@ -184,11 +209,14 @@ int ClientInterLayer::send_buff()
 int ClientInterLayer::receive()
 {
 	int res;
-	if (recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
+	if (res = recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
 	{
-		;//ошибка сокета
+		//ошибка сокета
+		closesocket(sock);
+		status = c::logged;
+		return 1;
 	}
-	return res;
+	return 0;
 }
 
 void ClientInterLayer::Exit()
