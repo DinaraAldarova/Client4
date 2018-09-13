@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <list>
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include < Windows.h >
@@ -8,6 +9,7 @@
 using namespace std;
 
 enum class c {stopped, logged, connected, avalible};
+enum class a {a_private, a_protected, a_public};
 
 class ClientInterLayer
 {
@@ -16,14 +18,17 @@ private:
 	c status;
 	string IP = "127.0.0.1";
 	int name;
-	list<string> files = {};
-	list<string> users = {};
+	vector<string> files = {};
+	vector<string> users = {};
+	list <string> log;
 	string puth = "D:\\Client";
 	char buff[4096];
 	SOCKET sock;
 	sockaddr_in dest_addr;
 	const u_short port = 665;
 	//HOSTENT *hst;
+	HANDLE hMutex_Log;
+	HANDLE hMutex_Users_Files;
 
 public:
 	bool isOutDated_UploadUsers = false;
@@ -41,8 +46,11 @@ public:
 	bool isLogged();
 	bool isConnected();
 	bool isAvalible();
-	list<string> getFiles();
-	list<string> getUsers();
+	vector<string> getFiles();
+	vector<string> getUsers();
+	void pushLog(string message);
+	string popLog();
+	bool Log_isEmpty();
 
 #pragma endregion
 
@@ -58,6 +66,8 @@ public:
 	bool Update();
 	int send_buff();
 	int receive();
+	bool UploadFile(string puth_name, a type_access, vector<string> users = {});
+	bool DownloadFile(string name, string puth);
 	void Exit();
 
 #pragma endregion

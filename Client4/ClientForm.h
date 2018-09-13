@@ -828,7 +828,10 @@ namespace Client4 {
 			}
 			client.isOutDated_UploadUsers = false;
 		}
-
+		while (!client.Log_isEmpty())
+		{
+			textBox_Log->Text += gcnew String((client.popLog() + "\n").c_str());
+		}
 	}
 	private: void wait_progressBar1()
 	{
@@ -910,7 +913,9 @@ namespace Client4 {
 		openFileDialog->ShowDialog();
 		labelUpload_Puth->Text = openFileDialog->FileName;
 	}
-	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e) 
+	{
+		update_info();
 	}
 };
 }
