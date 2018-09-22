@@ -12,6 +12,12 @@ ClientInterLayer::ClientInterLayer()
 }
 
 #pragma region get- и set-методы
+/*bool ClientInterLayer::clean_check()
+{
+	for (int i = 0; i < size_block; i++)
+		check[i] = '-';
+}*/
+
 c ClientInterLayer::Status()
 {
 	return status;
@@ -59,7 +65,7 @@ vector<string> ClientInterLayer::getUsers()
 void ClientInterLayer::pushLog(string message)
 {
 	WaitForSingleObject(hMutex_Log, INFINITE);
-	this->log.push_back(message);
+	this->log.push_back(message+"\n");
 	ReleaseMutex(hMutex_Log);
 }
 
@@ -75,6 +81,11 @@ string ClientInterLayer::popLog()
 bool ClientInterLayer::Log_isEmpty()
 {
 	return this->log.empty();
+}
+
+long ClientInterLayer::getPos()
+{
+	return pos;
 }
 #pragma endregion
 
@@ -242,16 +253,18 @@ int ClientInterLayer::receive()
 	return 0;
 }
 
-bool ClientInterLayer::UploadFile(string puth_name, a type_access, vector<string> users = {})
+bool ClientInterLayer::UploadFile(string puth_name, a type_access, vector<string> users)
 {
-	ifstream file(puth_name);
-	if (!file.is_open()) { pushLog("Ошибка! Файл не найден. Отправка невозможна"); return false; }
+	WaitForSingleObject(hMutex_Users_Files, INFINITE);
+	FILE * file;
+	file = fopen(puth_name.c_str(), "rb+");
+	if (file == NULL) { pushLog("Ошибка! Файл не найден. Отправка невозможна"); ReleaseMutex(hMutex_Users_Files); return false; }
 	strcpy(buff, "upload|");
 	string puth, name;
 	int i = puth_name.length() - 1;
 	while (puth_name[i] != '\\' && i > 0)
 		i--;
-	if (i == 0) { pushLog("Ошибочный путь к файлу! Отправка невозможна"); return false; }
+	if (i == 0) { pushLog("Ошибочный путь к файлу! Отправка невозможна"); fclose(file); ReleaseMutex(hMutex_Users_Files); return false; }
 	puth = puth_name.substr(0, i + 1);
 	name = puth_name.substr(i + 1);
 	strcat(buff, name.c_str());
@@ -271,14 +284,64 @@ bool ClientInterLayer::UploadFile(string puth_name, a type_access, vector<string
 		strcat(buff, "*");
 	}
 	send_buff();
+	if (receive()) { pushLog("Ошибка сокета, загрузка прервана"); fclose(file); ReleaseMutex(hMutex_Users_Files); return false; }
+	if (strcmp(buff, "ready") != 0) { pushLog("Файл невозможно загрузить: сервер ответил отрицательно"); fclose(file); ReleaseMutex(hMutex_Users_Files); return false; }
+	//а теперь самое важное - отправка файла
+	fseek(file, 0, SEEK_END);
+	long size_file = ftell(file);
+	fseek(file, 0, SEEK_SET);
 
-	//а теперь самое сложное - отправка файла
+	itoa(size_file, buff, 10);
+	send_buff();
+	//start_block = 0;
+	//clean_check();
+	for (long pos = 0; pos < size_file; )
+	{
+		fread(&buff, sizeof(buff), 1, file);
+		send_buff();
+		if (receive()) { pushLog("Ошибка сокета, загрузка прервана"); fclose(file); ReleaseMutex(hMutex_Users_Files); return false; }
+		if (strcmp(buff, "ok")) { pushLog("Нельзя продолжить загрузку: сервер ответил отрицательно"); fclose(file); ReleaseMutex(hMutex_Users_Files); return false; }
+
+		//вычислить контрольную сумму, пока просто pause/next
+		//добавить pause
+
+		strcpy(buff, "next");
+		send_buff();
+		if (receive()) { pushLog("Ошибка сокета, загрузка прервана"); fclose(file); ReleaseMutex(hMutex_Users_Files); return false; }
+		if (!strcmp(buff, "next"))
+			pos += sizeof(buff);//загружаем следующий блок
+		else if (!strcmp(buff, "repeat"))
+			fseek(file, pos, SEEK_SET); //повторяем загрузку этого блока
+		else
+		{
+			pushLog("Нельзя продолжить загрузку: сервер ответил отрицательно"); fclose(file); ReleaseMutex(hMutex_Users_Files); return false;
+		}
+	}
+	fclose(file);
+	strcpy(buff, "end");
+	send_buff();
+	if (receive()) { pushLog("Ошибка сокета после загрузки файла"); ReleaseMutex(hMutex_Users_Files); return false; }
+	if (!strcmp(buff, "end"))
+		//что-то не то
+	{
+		pushLog("Файл загружен");
+		ReleaseMutex(hMutex_Users_Files);
+		return true;
+	}
+	else
+	{
+		pushLog("Сервер прислал ошибочные данные уже после загрузки файла");
+		ReleaseMutex(hMutex_Users_Files);
+		return false;
+	}
 }
 
 bool ClientInterLayer::DownloadFile(string name, string puth)
 {
+	WaitForSingleObject(hMutex_Users_Files, INFINITE);
 	strcpy(buff, "download|");
 	strcat(buff, name.c_str());
+	strcat(buff, "*");
 	send_buff();
 
 	//а теперь будем этот файл скачивать
@@ -286,6 +349,8 @@ bool ClientInterLayer::DownloadFile(string name, string puth)
 	ofstream file(puth + name);
 	if (!file.is_open()) { pushLog("Ошибка! Файл невозможно создать. Скачивание невозможно"); return false; }
 
+
+	ReleaseMutex(hMutex_Users_Files);
 }
 
 void ClientInterLayer::Exit()

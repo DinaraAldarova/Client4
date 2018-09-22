@@ -3,10 +3,14 @@
 #include <list>
 #include <vector>
 #include <iostream>
+#include <cstdio>
 #include <fstream>
 #include < Windows.h >
 
 using namespace std;
+
+#define size_buff 4096
+#define size_block 10
 
 enum class c {stopped, logged, connected, avalible};
 enum class a {a_private, a_protected, a_public};
@@ -22,7 +26,11 @@ private:
 	vector<string> users = {};
 	list <string> log;
 	string puth = "D:\\Client";
-	char buff[4096];
+	char buff[size_buff];
+	//char check[size_block];
+	//long start_block = 0;
+	long pos = 0;
+	bool pause_load = false;
 	SOCKET sock;
 	sockaddr_in dest_addr;
 	const u_short port = 665;
@@ -38,6 +46,7 @@ public:
 
 #pragma region Get- и set- методы
 private:
+	//bool clean_check();
 
 public:
 	ClientInterLayer();
@@ -51,6 +60,7 @@ public:
 	void pushLog(string message);
 	string popLog();
 	bool Log_isEmpty();
+	long getPos();
 
 #pragma endregion
 

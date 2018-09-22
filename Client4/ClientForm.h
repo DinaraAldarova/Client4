@@ -309,6 +309,7 @@ namespace Client4 {
 				 this->buttonUpload->TabIndex = 8;
 				 this->buttonUpload->Text = L"Загрузить";
 				 this->buttonUpload->UseVisualStyleBackColor = true;
+				 this->buttonUpload->Click += gcnew System::EventHandler(this, &ClientForm::buttonUpload_Click);
 				 // 
 				 // groupBoxUpload_Access
 				 // 
@@ -913,9 +914,37 @@ namespace Client4 {
 		openFileDialog->ShowDialog();
 		labelUpload_Puth->Text = openFileDialog->FileName;
 	}
-	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e) 
+	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		update_info();
 	}
-};
+	private: System::Void buttonUpload_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		const char* chars = (const char*)(Runtime::InteropServices::Marshal::StringToHGlobalAnsi(this->labelUpload_Puth->Text)).ToPointer();
+		string puth = chars;
+		Runtime::InteropServices::Marshal::FreeHGlobal(IntPtr((void*)chars));
+
+		a type;
+		vector<string> access = {};
+		if (radioButtonPrivate->Checked)
+			type = a::a_private;
+		else if (radioButtonPublic->Checked)
+			type = a::a_public;
+		else
+		{
+			type = a::a_protected;
+			ListView::CheckedListViewItemCollection ^ checked = this->listViewUpload_Names->CheckedItems;
+			for (int i = 0; i < checked->Count; i++)
+			{
+				ListViewItem ^ item = checked[i];
+				const char* chars1 = (const char*)(Runtime::InteropServices::Marshal::StringToHGlobalAnsi(item->Text)).ToPointer();
+				string item_text = chars;
+				Runtime::InteropServices::Marshal::FreeHGlobal(IntPtr((void*)chars));
+				access.push_back(item_text);
+			}
+		}
+
+		client.UploadFile(puth, type, access);		
+	}
+	};
 }
