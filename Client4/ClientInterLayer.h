@@ -37,6 +37,7 @@ private:
 	//HOSTENT *hst;
 	HANDLE hMutex_Log;
 	HANDLE hMutex_Users_Files;
+	CRITICAL_SECTION cs_buf;
 
 public:
 	bool isOutDated_UploadUsers = false;

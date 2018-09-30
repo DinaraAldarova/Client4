@@ -806,6 +806,7 @@ namespace Client4 {
 			 }
 	private: void update_info()
 	{
+		client.Update();
 		if (client.isOutDated_DownloadFiles)
 		{
 			//обновление списка доступных для скачивания файлов
@@ -916,7 +917,9 @@ namespace Client4 {
 	}
 	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e)
 	{
+		block_buttons();
 		update_info();
+		unblock_buttons();
 	}
 	private: System::Void buttonUpload_Click(System::Object^  sender, System::EventArgs^  e)
 	{

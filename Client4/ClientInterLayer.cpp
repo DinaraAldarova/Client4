@@ -7,6 +7,7 @@ ClientInterLayer::ClientInterLayer()
 	if (WSAStartup(0x202, (WSADATA *)&buff[0]))
 		Exit();//error, может вылететь! (закроет не открытое)
 	hMutex_Log = CreateMutex(NULL, false, NULL);
+	InitializeCriticalSection(&cs_buf);
 	dest_addr.sin_family = AF_INET;
 	dest_addr.sin_port = htons(port);
 }
@@ -115,7 +116,7 @@ bool ClientInterLayer::Login(string new_IP)
 		if (receive()) return false;
 		name = atoi(buff);
 		if (name == 0)
-			;/*сервер отправил что-то другое*/
+			pushLog("Сервер прислал ошибочное имя");/*сервер отправил что-то другое*/
 
 		//загрузить files, users
 		if (!Update()) return false;
@@ -129,12 +130,18 @@ bool ClientInterLayer::Logout()
 {
 	if (status == c::logged)
 	{
-		if (!Connect())
+		if (Connect())
 		{
 			//Сервер - Logout
 			strcpy(buff, "logout");
 			send_buff();
 		}
+	}
+	else if (status == c::avalible)
+	{
+		//Сервер - Logout
+		strcpy(buff, "logout");
+		send_buff();
 	}
 
 	name = 0;
@@ -237,19 +244,25 @@ bool ClientInterLayer::Update()
 
 int ClientInterLayer::send_buff()
 {
-	return send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+	EnterCriticalSection(&cs_buf);
+	int i = send(sock, &buff[0], strlen(buff) + 1, 0);	//отправил команду
+	LeaveCriticalSection(&cs_buf);
+	return i;
 }
 
 int ClientInterLayer::receive()
 {
-	int res;
-	if (res = recv(sock, &buff[0], sizeof(buff), 0) == SOCKET_ERROR)
+	EnterCriticalSection(&cs_buf);
+	int res = recv(sock, &buff[0], sizeof(buff), 0);
+	if (res == SOCKET_ERROR)
 	{
+		LeaveCriticalSection(&cs_buf);
 		//ошибка сокета
 		closesocket(sock);
 		status = c::logged;
 		return 1;
 	}
+	LeaveCriticalSection(&cs_buf);
 	return 0;
 }
 
