@@ -271,6 +271,7 @@ namespace Client4 {
 				 this->groupBoxUpload_Loading->TabIndex = 9;
 				 this->groupBoxUpload_Loading->TabStop = false;
 				 this->groupBoxUpload_Loading->Text = L"Идет загрузка...";
+				 this->groupBoxUpload_Loading->Visible = false;
 				 // 
 				 // buttonUpload_Pause
 				 // 
@@ -281,6 +282,7 @@ namespace Client4 {
 				 this->buttonUpload_Pause->TabIndex = 2;
 				 this->buttonUpload_Pause->Text = L"Пауза";
 				 this->buttonUpload_Pause->UseVisualStyleBackColor = true;
+				 this->buttonUpload_Pause->Click += gcnew System::EventHandler(this, &ClientForm::buttonUpload_Pause_Click);
 				 // 
 				 // buttonUpload_Cancel
 				 // 
@@ -291,6 +293,7 @@ namespace Client4 {
 				 this->buttonUpload_Cancel->TabIndex = 1;
 				 this->buttonUpload_Cancel->Text = L"Отмена";
 				 this->buttonUpload_Cancel->UseVisualStyleBackColor = true;
+				 this->buttonUpload_Cancel->Click += gcnew System::EventHandler(this, &ClientForm::buttonUpload_Cancel_Click);
 				 // 
 				 // progressBarUpload_Loading
 				 // 
@@ -832,7 +835,7 @@ namespace Client4 {
 		}
 		while (!client.Log_isEmpty())
 		{
-			textBox_Log->Text += gcnew String((client.popLog() + "\n").c_str());
+			textBox_Log->Text += gcnew String((client.popLog()).c_str()) + Environment::NewLine;
 		}
 	}
 	private: void wait_progressBar1()
@@ -947,7 +950,73 @@ namespace Client4 {
 			}
 		}
 
-		client.UploadFile(puth, type, access);		
+		client.UploadFile(puth, type, access);
+		ProgressBarUpload ^ o1 = gcnew  ProgressBarUpload(this);
+		Thread^ t1 = gcnew Thread(gcnew ThreadStart(o1, &ProgressBarUpload::wait_progressBarUpload));
+		t1->Name = "t1";
+		t1->Start();
 	}
+	private: System::Void buttonUpload_Pause_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		client.setPauseLoad();
+	}
+	private: System::Void buttonUpload_Cancel_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		client.setEndLoad();
+	}
+
+	public: ref class ProgressBarUpload
+	{
+	public: Client4::ClientForm ^ this_form;
+	public: ProgressBarUpload(Client4::ClientForm ^ my_form)
+	{
+		this_form = my_form;
+	}
+			delegate void StringDelegate(String^ text);
+	public: void wait_progressBarUpload()
+	{
+
+		this_form->Invoke(gcnew Action(this, &ClientForm::ProgressBarUpload::start_progressBarUpload));
+		while (client.isEndLoad() != true)
+		{
+			Thread::CurrentThread->Sleep(200);
+			this_form->Invoke(gcnew Action(this, &ClientForm::ProgressBarUpload::add_progressBarUpload));
+		}
+		this_form->Invoke(gcnew Action(this, &ClientForm::ProgressBarUpload::stop_progressBarUpload));
+		client.Update();
+	}
+	private: void start_progressBarUpload()
+	{
+		//заблочить все лишнее
+		this_form->buttonLog->Enabled = false;
+		this_form->buttonConnect->Enabled = false;
+		this_form->groupBoxUpload_Puth->Enabled = false;
+		this_form->groupBoxUpload_Access->Enabled = false;
+		this_form->buttonUpload->Enabled = false;
+
+		this_form->progressBarUpload_Loading->Minimum = 0;
+		this_form->progressBarUpload_Loading->Maximum = 100;
+		this_form->progressBarUpload_Loading->Value = 0;
+		this_form->groupBoxUpload_Loading->Visible = true;
+		this_form->progressBar1->Style = ProgressBarStyle::Blocks;
+	}
+	private: void add_progressBarUpload()
+	{
+		this_form->progressBarUpload_Loading->Value = client.getPercent();
+	}
+	private: void stop_progressBarUpload()
+	{
+		this_form->groupBoxUpload_Loading->Visible = false;
+
+		//разблочить все, что заблочили
+		this_form->buttonLog->Enabled = true;
+		this_form->buttonConnect->Enabled = true;
+		this_form->groupBoxUpload_Puth->Enabled = true;
+		this_form->groupBoxUpload_Access->Enabled = true;
+		this_form->buttonUpload->Enabled = true;
+		//ClientForm::progressBar1->Style = ProgressBarStyle::Continuous;
+	}
+	};
+
 	};
 }
