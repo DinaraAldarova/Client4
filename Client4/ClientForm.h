@@ -1,4 +1,4 @@
-#pragma once
+#pragma once 
 #include <typeinfo>
 #include <iostream>
 #include "ClientInterLayer.h"
@@ -19,10 +19,7 @@ namespace Client4 {
 	/// </summary>
 	public ref class ClientForm : public System::Windows::Forms::Form
 	{
-	public:
-		String ^ IP;
-	private: System::Windows::Forms::TextBox^  textBox_Log;
-	public:
+	public:	String ^ IP;
 	public:	Thread ^ th;
 #pragma region Стандартная часть кода, ничего интересного
 	public:	ClientForm(void)
@@ -45,6 +42,12 @@ namespace Client4 {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::TextBox^  textBox_Log;
+	private: System::Windows::Forms::GroupBox^  groupBoxDownload_Loading;
+	private: System::Windows::Forms::Button^  buttonDownload_Pause;
+	private: System::Windows::Forms::Button^  buttonDownload_Cancel;
+	private: System::Windows::Forms::ProgressBar^  progressBarDownload_Loading;
+	private: System::Windows::Forms::Button^  buttonDownload;
 	private: System::Windows::Forms::Button^  buttonLog;
 	private: System::Windows::Forms::TextBox^  textBoxIP1;
 	private: System::Windows::Forms::Label^  label1;
@@ -99,31 +102,36 @@ namespace Client4 {
 			 {
 				 this->components = (gcnew System::ComponentModel::Container());
 				 System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ClientForm::typeid));
-				 System::Windows::Forms::ListViewItem^  listViewItem1 = (gcnew System::Windows::Forms::ListViewItem(L"1"));
-				 System::Windows::Forms::ListViewItem^  listViewItem2 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
-				 System::Windows::Forms::ListViewItem^  listViewItem3 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
-				 System::Windows::Forms::ListViewItem^  listViewItem4 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
-				 System::Windows::Forms::ListViewItem^  listViewItem5 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
-				 System::Windows::Forms::ListViewItem^  listViewItem6 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
-				 System::Windows::Forms::ListViewItem^  listViewItem7 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
-				 System::Windows::Forms::ListViewItem^  listViewItem8 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
-				 System::Windows::Forms::ListViewItem^  listViewItem9 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
-				 System::Windows::Forms::ListViewItem^  listViewItem10 = (gcnew System::Windows::Forms::ListViewItem(L"15"));
-				 System::Windows::Forms::ListViewItem^  listViewItem11 = (gcnew System::Windows::Forms::ListViewItem(L"16"));
-				 System::Windows::Forms::ListViewItem^  listViewItem12 = (gcnew System::Windows::Forms::ListViewItem(L"2"));
-				 System::Windows::Forms::ListViewItem^  listViewItem13 = (gcnew System::Windows::Forms::ListViewItem(L"3"));
-				 System::Windows::Forms::ListViewItem^  listViewItem14 = (gcnew System::Windows::Forms::ListViewItem(L"4"));
-				 System::Windows::Forms::ListViewItem^  listViewItem15 = (gcnew System::Windows::Forms::ListViewItem(L"5"));
-				 System::Windows::Forms::ListViewItem^  listViewItem16 = (gcnew System::Windows::Forms::ListViewItem(L"6"));
-				 System::Windows::Forms::ListViewItem^  listViewItem17 = (gcnew System::Windows::Forms::ListViewItem(L"7"));
-				 System::Windows::Forms::ListViewItem^  listViewItem18 = (gcnew System::Windows::Forms::ListViewItem(L"8"));
-				 System::Windows::Forms::ListViewItem^  listViewItem19 = (gcnew System::Windows::Forms::ListViewItem(L"9"));
-				 System::Windows::Forms::ListViewItem^  listViewItem20 = (gcnew System::Windows::Forms::ListViewItem(L"Длинный 13"));
+				 System::Windows::Forms::ListViewItem^  listViewItem21 = (gcnew System::Windows::Forms::ListViewItem(L"1"));
+				 System::Windows::Forms::ListViewItem^  listViewItem22 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
+				 System::Windows::Forms::ListViewItem^  listViewItem23 = (gcnew System::Windows::Forms::ListViewItem(L"10"));
+				 System::Windows::Forms::ListViewItem^  listViewItem24 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
+				 System::Windows::Forms::ListViewItem^  listViewItem25 = (gcnew System::Windows::Forms::ListViewItem(L"11"));
+				 System::Windows::Forms::ListViewItem^  listViewItem26 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
+				 System::Windows::Forms::ListViewItem^  listViewItem27 = (gcnew System::Windows::Forms::ListViewItem(L"12"));
+				 System::Windows::Forms::ListViewItem^  listViewItem28 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
+				 System::Windows::Forms::ListViewItem^  listViewItem29 = (gcnew System::Windows::Forms::ListViewItem(L"14"));
+				 System::Windows::Forms::ListViewItem^  listViewItem30 = (gcnew System::Windows::Forms::ListViewItem(L"15"));
+				 System::Windows::Forms::ListViewItem^  listViewItem31 = (gcnew System::Windows::Forms::ListViewItem(L"16"));
+				 System::Windows::Forms::ListViewItem^  listViewItem32 = (gcnew System::Windows::Forms::ListViewItem(L"2"));
+				 System::Windows::Forms::ListViewItem^  listViewItem33 = (gcnew System::Windows::Forms::ListViewItem(L"3"));
+				 System::Windows::Forms::ListViewItem^  listViewItem34 = (gcnew System::Windows::Forms::ListViewItem(L"4"));
+				 System::Windows::Forms::ListViewItem^  listViewItem35 = (gcnew System::Windows::Forms::ListViewItem(L"5"));
+				 System::Windows::Forms::ListViewItem^  listViewItem36 = (gcnew System::Windows::Forms::ListViewItem(L"6"));
+				 System::Windows::Forms::ListViewItem^  listViewItem37 = (gcnew System::Windows::Forms::ListViewItem(L"7"));
+				 System::Windows::Forms::ListViewItem^  listViewItem38 = (gcnew System::Windows::Forms::ListViewItem(L"8"));
+				 System::Windows::Forms::ListViewItem^  listViewItem39 = (gcnew System::Windows::Forms::ListViewItem(L"9"));
+				 System::Windows::Forms::ListViewItem^  listViewItem40 = (gcnew System::Windows::Forms::ListViewItem(L"Длинный 13"));
 				 this->buttonLog = (gcnew System::Windows::Forms::Button());
 				 this->imageListLog = (gcnew System::Windows::Forms::ImageList(this->components));
 				 this->textBoxIP1 = (gcnew System::Windows::Forms::TextBox());
 				 this->label1 = (gcnew System::Windows::Forms::Label());
 				 this->tabPageDownload = (gcnew System::Windows::Forms::TabPage());
+				 this->groupBoxDownload_Loading = (gcnew System::Windows::Forms::GroupBox());
+				 this->buttonDownload_Pause = (gcnew System::Windows::Forms::Button());
+				 this->buttonDownload_Cancel = (gcnew System::Windows::Forms::Button());
+				 this->progressBarDownload_Loading = (gcnew System::Windows::Forms::ProgressBar());
+				 this->buttonDownload = (gcnew System::Windows::Forms::Button());
 				 this->label7 = (gcnew System::Windows::Forms::Label());
 				 this->comboBoxDownloadFiles = (gcnew System::Windows::Forms::ComboBox());
 				 this->tabPageUpload = (gcnew System::Windows::Forms::TabPage());
@@ -160,6 +168,7 @@ namespace Client4 {
 				 this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
 				 this->label6 = (gcnew System::Windows::Forms::Label());
 				 this->tabPageDownload->SuspendLayout();
+				 this->groupBoxDownload_Loading->SuspendLayout();
 				 this->tabPageUpload->SuspendLayout();
 				 this->groupBoxUpload_Loading->SuspendLayout();
 				 this->groupBoxUpload_Access->SuspendLayout();
@@ -214,6 +223,8 @@ namespace Client4 {
 				 // 
 				 // tabPageDownload
 				 // 
+				 this->tabPageDownload->Controls->Add(this->groupBoxDownload_Loading);
+				 this->tabPageDownload->Controls->Add(this->buttonDownload);
 				 this->tabPageDownload->Controls->Add(this->label7);
 				 this->tabPageDownload->Controls->Add(this->comboBoxDownloadFiles);
 				 this->tabPageDownload->Location = System::Drawing::Point(4, 22);
@@ -224,10 +235,65 @@ namespace Client4 {
 				 this->tabPageDownload->Text = L"Скачать";
 				 this->tabPageDownload->UseVisualStyleBackColor = true;
 				 // 
+				 // groupBoxDownload_Loading
+				 // 
+				 this->groupBoxDownload_Loading->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
+				 this->groupBoxDownload_Loading->Controls->Add(this->buttonDownload_Pause);
+				 this->groupBoxDownload_Loading->Controls->Add(this->buttonDownload_Cancel);
+				 this->groupBoxDownload_Loading->Controls->Add(this->progressBarDownload_Loading);
+				 this->groupBoxDownload_Loading->Location = System::Drawing::Point(6, 224);
+				 this->groupBoxDownload_Loading->Name = L"groupBoxDownload_Loading";
+				 this->groupBoxDownload_Loading->Size = System::Drawing::Size(379, 98);
+				 this->groupBoxDownload_Loading->TabIndex = 11;
+				 this->groupBoxDownload_Loading->TabStop = false;
+				 this->groupBoxDownload_Loading->Text = L"Идет загрузка...";
+				 this->groupBoxDownload_Loading->Visible = false;
+				 // 
+				 // buttonDownload_Pause
+				 // 
+				 this->buttonDownload_Pause->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left));
+				 this->buttonDownload_Pause->Location = System::Drawing::Point(6, 69);
+				 this->buttonDownload_Pause->Name = L"buttonDownload_Pause";
+				 this->buttonDownload_Pause->Size = System::Drawing::Size(75, 23);
+				 this->buttonDownload_Pause->TabIndex = 2;
+				 this->buttonDownload_Pause->Text = L"Пауза";
+				 this->buttonDownload_Pause->UseVisualStyleBackColor = true;
+				 this->buttonDownload_Pause->Click += gcnew System::EventHandler(this, &ClientForm::buttonDownload_Pause_Click);
+				 // 
+				 // buttonDownload_Cancel
+				 // 
+				 this->buttonDownload_Cancel->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
+				 this->buttonDownload_Cancel->Location = System::Drawing::Point(298, 69);
+				 this->buttonDownload_Cancel->Name = L"buttonDownload_Cancel";
+				 this->buttonDownload_Cancel->Size = System::Drawing::Size(75, 23);
+				 this->buttonDownload_Cancel->TabIndex = 1;
+				 this->buttonDownload_Cancel->Text = L"Отмена";
+				 this->buttonDownload_Cancel->UseVisualStyleBackColor = true;
+				 this->buttonDownload_Cancel->Click += gcnew System::EventHandler(this, &ClientForm::buttonDownload_Cancel_Click);
+				 // 
+				 // progressBarDownload_Loading
+				 // 
+				 this->progressBarDownload_Loading->Dock = System::Windows::Forms::DockStyle::Top;
+				 this->progressBarDownload_Loading->Location = System::Drawing::Point(3, 16);
+				 this->progressBarDownload_Loading->Name = L"progressBarDownload_Loading";
+				 this->progressBarDownload_Loading->Size = System::Drawing::Size(373, 23);
+				 this->progressBarDownload_Loading->TabIndex = 0;
+				 // 
+				 // buttonDownload
+				 // 
+				 this->buttonDownload->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Left | System::Windows::Forms::AnchorStyles::Right));
+				 this->buttonDownload->Location = System::Drawing::Point(6, 195);
+				 this->buttonDownload->Name = L"buttonDownload";
+				 this->buttonDownload->Size = System::Drawing::Size(379, 23);
+				 this->buttonDownload->TabIndex = 10;
+				 this->buttonDownload->Text = L"Загрузить";
+				 this->buttonDownload->UseVisualStyleBackColor = true;
+				 this->buttonDownload->Click += gcnew System::EventHandler(this, &ClientForm::buttonDownload_Click);
+				 // 
 				 // label7
 				 // 
 				 this->label7->AutoSize = true;
-				 this->label7->Location = System::Drawing::Point(45, 30);
+				 this->label7->Location = System::Drawing::Point(45, 32);
 				 this->label7->Name = L"label7";
 				 this->label7->Size = System::Drawing::Size(89, 13);
 				 this->label7->TabIndex = 1;
@@ -240,9 +306,9 @@ namespace Client4 {
 					 L"Файл1", L"Файл2", L"Файл3", L"Файл4",
 						 L"Файл5", L""
 				 });
-				 this->comboBoxDownloadFiles->Location = System::Drawing::Point(48, 46);
+				 this->comboBoxDownloadFiles->Location = System::Drawing::Point(48, 48);
 				 this->comboBoxDownloadFiles->Name = L"comboBoxDownloadFiles";
-				 this->comboBoxDownloadFiles->Size = System::Drawing::Size(121, 21);
+				 this->comboBoxDownloadFiles->Size = System::Drawing::Size(244, 21);
 				 this->comboBoxDownloadFiles->TabIndex = 0;
 				 // 
 				 // tabPageUpload
@@ -354,32 +420,32 @@ namespace Client4 {
 				 // 
 				 this->listViewUpload_Names->Dock = System::Windows::Forms::DockStyle::Right;
 				 this->listViewUpload_Names->HideSelection = false;
-				 listViewItem1->StateImageIndex = 0;
-				 listViewItem2->StateImageIndex = 0;
-				 listViewItem2->UseItemStyleForSubItems = false;
-				 listViewItem3->StateImageIndex = 0;
-				 listViewItem4->StateImageIndex = 0;
-				 listViewItem5->StateImageIndex = 0;
-				 listViewItem6->StateImageIndex = 0;
-				 listViewItem7->StateImageIndex = 0;
-				 listViewItem8->StateImageIndex = 0;
-				 listViewItem9->StateImageIndex = 0;
-				 listViewItem10->StateImageIndex = 0;
-				 listViewItem11->StateImageIndex = 0;
-				 listViewItem12->StateImageIndex = 0;
-				 listViewItem13->StateImageIndex = 0;
-				 listViewItem14->StateImageIndex = 0;
-				 listViewItem15->StateImageIndex = 0;
-				 listViewItem16->StateImageIndex = 0;
-				 listViewItem17->StateImageIndex = 0;
-				 listViewItem18->StateImageIndex = 0;
-				 listViewItem19->StateImageIndex = 0;
-				 listViewItem20->StateImageIndex = 0;
+				 listViewItem21->StateImageIndex = 0;
+				 listViewItem22->StateImageIndex = 0;
+				 listViewItem22->UseItemStyleForSubItems = false;
+				 listViewItem23->StateImageIndex = 0;
+				 listViewItem24->StateImageIndex = 0;
+				 listViewItem25->StateImageIndex = 0;
+				 listViewItem26->StateImageIndex = 0;
+				 listViewItem27->StateImageIndex = 0;
+				 listViewItem28->StateImageIndex = 0;
+				 listViewItem29->StateImageIndex = 0;
+				 listViewItem30->StateImageIndex = 0;
+				 listViewItem31->StateImageIndex = 0;
+				 listViewItem32->StateImageIndex = 0;
+				 listViewItem33->StateImageIndex = 0;
+				 listViewItem34->StateImageIndex = 0;
+				 listViewItem35->StateImageIndex = 0;
+				 listViewItem36->StateImageIndex = 0;
+				 listViewItem37->StateImageIndex = 0;
+				 listViewItem38->StateImageIndex = 0;
+				 listViewItem39->StateImageIndex = 0;
+				 listViewItem40->StateImageIndex = 0;
 				 this->listViewUpload_Names->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem^  >(20) {
-					 listViewItem1,
-						 listViewItem2, listViewItem3, listViewItem4, listViewItem5, listViewItem6, listViewItem7, listViewItem8, listViewItem9, listViewItem10,
-						 listViewItem11, listViewItem12, listViewItem13, listViewItem14, listViewItem15, listViewItem16, listViewItem17, listViewItem18,
-						 listViewItem19, listViewItem20
+					 listViewItem21,
+						 listViewItem22, listViewItem23, listViewItem24, listViewItem25, listViewItem26, listViewItem27, listViewItem28, listViewItem29,
+						 listViewItem30, listViewItem31, listViewItem32, listViewItem33, listViewItem34, listViewItem35, listViewItem36, listViewItem37,
+						 listViewItem38, listViewItem39, listViewItem40
 				 });
 				 this->listViewUpload_Names->LabelWrap = false;
 				 this->listViewUpload_Names->Location = System::Drawing::Point(111, 16);
@@ -662,6 +728,7 @@ namespace Client4 {
 				 this->Load += gcnew System::EventHandler(this, &ClientForm::ClientForm_Load);
 				 this->tabPageDownload->ResumeLayout(false);
 				 this->tabPageDownload->PerformLayout();
+				 this->groupBoxDownload_Loading->ResumeLayout(false);
 				 this->tabPageUpload->ResumeLayout(false);
 				 this->tabPageUpload->PerformLayout();
 				 this->groupBoxUpload_Loading->ResumeLayout(false);
@@ -720,7 +787,6 @@ namespace Client4 {
 		else if (System::Convert::ToInt32(textBoxIP4->Text) > 255)
 			textBoxIP4->Text = "255";
 	}
-
 	private: System::Void buttonSetLocalIP_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		textBoxIP1->Text = "127";
@@ -728,13 +794,13 @@ namespace Client4 {
 		textBoxIP3->Text = "0";
 		textBoxIP4->Text = "1";
 	}
-			 void getIP()
-			 {
-				 IP = textBoxIP1->Text + ".";
-				 IP += textBoxIP2->Text + ".";
-				 IP += textBoxIP3->Text + ".";
-				 IP += textBoxIP4->Text;
-			 }
+	private: void getIP()
+	{
+		IP = textBoxIP1->Text + ".";
+		IP += textBoxIP2->Text + ".";
+		IP += textBoxIP3->Text + ".";
+		IP += textBoxIP4->Text;
+	}
 #pragma endregion
 
 	private: System::Void ClientForm_Load(System::Object^  sender, System::EventArgs^  e)
@@ -746,67 +812,67 @@ namespace Client4 {
 	}
 
 #pragma region Блокировка элементов управления при измении состояния подключения
-			 void blockTextBoxIP()
-			 {
-				 textBoxIP1->Enabled = false;
-				 textBoxIP2->Enabled = false;
-				 textBoxIP3->Enabled = false;
-				 textBoxIP4->Enabled = false;
-				 textBoxIP1->BackColor = Drawing::SystemColors::Window;
-				 textBoxIP2->BackColor = Drawing::SystemColors::Window;
-				 textBoxIP3->BackColor = Drawing::SystemColors::Window;
-				 textBoxIP4->BackColor = Drawing::SystemColors::Window;
-				 label1->Enabled = false;
-				 label2->Enabled = false;
-				 label3->Enabled = false;
-				 label4->Enabled = false;
-			 }
-			 void unblockTextBoxIP()
-			 {
-				 textBoxIP1->Enabled = true;
-				 textBoxIP2->Enabled = true;
-				 textBoxIP3->Enabled = true;
-				 textBoxIP4->Enabled = true;
-				 label1->Enabled = true;
-				 label2->Enabled = true;
-				 label3->Enabled = true;
-				 label4->Enabled = true;
-			 }
-			 void block_buttons()
-			 {
-				 buttonConnect->Enabled = false;
-				 buttonLog->Enabled = false;
-				 buttonHome->Enabled = false;
-				 tabControl1->Enabled = false;
-				 blockTextBoxIP();
-			 }
-			 void unblock_buttons()
-			 {
-				 buttonConnect->ImageIndex = client.isConnected();
-				 buttonLog->ImageIndex = client.isLogged();
-				 buttonLog->Enabled = true;
-				 c status = client.Status();
-				 switch (status)
-				 {
-				 case c::avalible:
-					 tabControl1->Enabled = true;
-					 update_info();
-				 case c::connected:
-				 case c::logged:
-					 buttonConnect->Enabled = true;
-					 break;
-				 case c::stopped:
-					 buttonHome->Enabled = true;
-					 unblockTextBoxIP();
-					 break;
-				 }
-				 if (status == c::connected)
-				 {
-					 //сервер не доступен
-					 th = gcnew Thread(gcnew ThreadStart(this, &ClientForm::wait_progressBar1));
-					 th->Start();
-				 }
-			 }
+	private: void blockTextBoxIP()
+	{
+		textBoxIP1->Enabled = false;
+		textBoxIP2->Enabled = false;
+		textBoxIP3->Enabled = false;
+		textBoxIP4->Enabled = false;
+		textBoxIP1->BackColor = Drawing::SystemColors::Window;
+		textBoxIP2->BackColor = Drawing::SystemColors::Window;
+		textBoxIP3->BackColor = Drawing::SystemColors::Window;
+		textBoxIP4->BackColor = Drawing::SystemColors::Window;
+		label1->Enabled = false;
+		label2->Enabled = false;
+		label3->Enabled = false;
+		label4->Enabled = false;
+	}
+	private: void unblockTextBoxIP()
+	{
+		textBoxIP1->Enabled = true;
+		textBoxIP2->Enabled = true;
+		textBoxIP3->Enabled = true;
+		textBoxIP4->Enabled = true;
+		label1->Enabled = true;
+		label2->Enabled = true;
+		label3->Enabled = true;
+		label4->Enabled = true;
+	}
+	private: void block_buttons()
+	{
+		buttonConnect->Enabled = false;
+		buttonLog->Enabled = false;
+		buttonHome->Enabled = false;
+		tabControl1->Enabled = false;
+		blockTextBoxIP();
+	}
+	private: void unblock_buttons()
+	{
+		buttonConnect->ImageIndex = client.isConnected();
+		buttonLog->ImageIndex = client.isLogged();
+		buttonLog->Enabled = true;
+		c status = client.Status();
+		switch (status)
+		{
+		case c::avalible:
+			tabControl1->Enabled = true;
+			update_info();
+		case c::connected:
+		case c::logged:
+			buttonConnect->Enabled = true;
+			break;
+		case c::stopped:
+			buttonHome->Enabled = true;
+			unblockTextBoxIP();
+			break;
+		}
+		if (status == c::connected)
+		{
+			//сервер не доступен
+			th = gcnew Thread(gcnew ThreadStart(this, &ClientForm::wait_progressBar1));
+			th->Start();
+		}
+	}
 	private: void update_info()
 	{
 		client.Update();
@@ -861,7 +927,7 @@ namespace Client4 {
 	}
 #pragma endregion
 
-#pragma region Клавиши Connect и Login - !!!дописать загрузку данных на вкладки
+#pragma region Клавиши Connect и Login
 	private: System::Void buttonConnect_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		block_buttons();
@@ -902,8 +968,19 @@ namespace Client4 {
 	}
 #pragma endregion
 
+	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		block_buttons();
+		update_info();
+		unblock_buttons();
+	}
 
-
+#pragma region Upload
+	private: System::Void buttonUpload_FileDialog_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		openFileDialog->ShowDialog();
+		labelUpload_Puth->Text = openFileDialog->FileName;
+	}
 	private: System::Void radioButtonProtected_CheckedChanged(System::Object^  sender, System::EventArgs^  e)
 	{
 		if (radioButtonProtected->Checked)
@@ -911,21 +988,31 @@ namespace Client4 {
 		else
 			listViewUpload_Names->Visible = false;
 	}
-
-
-	private: System::Void buttonUpload_FileDialog_Click(System::Object^  sender, System::EventArgs^  e)
-	{
-		openFileDialog->ShowDialog();
-		labelUpload_Puth->Text = openFileDialog->FileName;
-	}
-	private: System::Void tabControl1_Click(System::Object^  sender, System::EventArgs^  e)
-	{
-		block_buttons();
-		update_info();
-		unblock_buttons();
-	}
 	private: System::Void buttonUpload_Click(System::Object^  sender, System::EventArgs^  e)
 	{
+		if (client.Status() != c::avalible)
+		{
+			block_buttons();
+			update_info();
+			unblock_buttons();
+			return;
+		}
+		if (client.isOutDated_UploadUsers)
+		{
+			//показать форму, попросить еще раз отметить пользователей
+			if (MessageBox::Show("Список пользователей устарел. Хотите обновить данные?", "Внимание!", MessageBoxButtons::YesNo, MessageBoxIcon::Warning, MessageBoxDefaultButton::Button1)
+				== System::Windows::Forms::DialogResult::Yes)
+			{
+				block_buttons();
+				update_info();
+				unblock_buttons();
+				return;
+			}
+			else
+			{
+				//ничего не делаем, так отправим. 
+			}
+		}
 		const char* chars = (const char*)(Runtime::InteropServices::Marshal::StringToHGlobalAnsi(this->labelUpload_Puth->Text)).ToPointer();
 		string puth = chars;
 		Runtime::InteropServices::Marshal::FreeHGlobal(IntPtr((void*)chars));
@@ -998,7 +1085,7 @@ namespace Client4 {
 		this_form->progressBarUpload_Loading->Maximum = 100;
 		this_form->progressBarUpload_Loading->Value = 0;
 		this_form->groupBoxUpload_Loading->Visible = true;
-		this_form->progressBar1->Style = ProgressBarStyle::Blocks;
+		this_form->progressBarUpload_Loading->Style = ProgressBarStyle::Blocks;
 	}
 	private: void add_progressBarUpload()
 	{
@@ -1017,6 +1104,100 @@ namespace Client4 {
 		//ClientForm::progressBar1->Style = ProgressBarStyle::Continuous;
 	}
 	};
+#pragma endregion
 
+#pragma region Download
+	private: System::Void buttonDownload_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		if (client.Status() != c::avalible)
+		{
+			block_buttons();
+			update_info();
+			unblock_buttons();
+			return;
+		}
+		if (client.isOutDated_DownloadFiles)
+		{
+			//показать форму, попросить еще раз отметить пользователей
+			if (MessageBox::Show("Список доступных файлов устарел. Хотите обновить данные?", "Внимание!", MessageBoxButtons::YesNo, MessageBoxIcon::Warning, MessageBoxDefaultButton::Button1)
+				== System::Windows::Forms::DialogResult::Yes)
+			{
+				block_buttons();
+				update_info();
+				unblock_buttons();
+				return;
+			}
+			else
+			{
+				//ничего не делаем, так отправим. 
+			}
+		}
+		const char* chars = (const char*)(Runtime::InteropServices::Marshal::StringToHGlobalAnsi(this->comboBoxDownloadFiles->SelectedItem->ToString())).ToPointer();
+		string name = chars;
+		Runtime::InteropServices::Marshal::FreeHGlobal(IntPtr((void*)chars));
+
+		client.DownloadFile(name);
+		ProgressBarDownload ^ o1 = gcnew  ProgressBarDownload(this);
+		Thread^ t1 = gcnew Thread(gcnew ThreadStart(o1, &ProgressBarDownload::wait_progressBarDownload));
+		t1->Name = "t1";
+		t1->Start();
+	}
+	private: System::Void buttonDownload_Pause_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		client.setPauseLoad();
+	}
+	private: System::Void buttonDownload_Cancel_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		client.setEndLoad();
+	}
+	public: ref class ProgressBarDownload
+	{
+	public: Client4::ClientForm ^ this_form;
+	public: ProgressBarDownload(Client4::ClientForm ^ my_form)
+	{
+		this_form = my_form;
+	}
+	public: delegate void StringDelegate(String^ text);
+	public: void wait_progressBarDownload()
+	{
+		this_form->Invoke(gcnew Action(this, &ClientForm::ProgressBarDownload::start_progressBarDownload));
+		while (client.isEndLoad() != true)
+		{
+			Thread::CurrentThread->Sleep(200);
+			this_form->Invoke(gcnew Action(this, &ClientForm::ProgressBarDownload::add_progressBarDownload));
+		}
+		this_form->Invoke(gcnew Action(this, &ClientForm::ProgressBarDownload::stop_progressBarDownload));
+		client.Update();
+	}
+	private: void start_progressBarDownload()
+	{
+		//заблочить все лишнее
+		this_form->buttonLog->Enabled = false;
+		this_form->buttonConnect->Enabled = false;
+		this_form->comboBoxDownloadFiles->Enabled = false;
+		this_form->buttonDownload->Enabled = false;
+
+		this_form->progressBarDownload_Loading->Minimum = 0;
+		this_form->progressBarDownload_Loading->Maximum = 100;
+		this_form->progressBarDownload_Loading->Value = 0;
+		this_form->groupBoxDownload_Loading->Visible = true;
+		this_form->progressBarDownload_Loading->Style = ProgressBarStyle::Blocks;
+	}
+	private: void add_progressBarDownload()
+	{
+		this_form->progressBarDownload_Loading->Value = client.getPercent();
+	}
+	private: void stop_progressBarDownload()
+	{
+		this_form->groupBoxDownload_Loading->Visible = false;
+
+		//разблочить все, что заблочили
+		this_form->buttonLog->Enabled = true;
+		this_form->buttonConnect->Enabled = true;
+		this_form->comboBoxDownloadFiles->Enabled = true;
+		this_form->buttonDownload->Enabled = true;
+	}
+	};
+#pragma endregion
 	};
 }

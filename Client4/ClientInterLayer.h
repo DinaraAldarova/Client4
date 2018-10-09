@@ -25,7 +25,7 @@ public:
 	vector<string> files = {};
 	vector<string> users = {};
 	list <string> log;
-	string puth = "D:\\Client";
+	string puth = "D:\\Client\\";
 	char buff[size_buff];
 	//char check[size_block];
 	//long start_block = 0;
@@ -38,6 +38,9 @@ public:
 	string puth_name;
 	a type_access;
 	vector<string> users_access = {};
+
+	//для скачивания файла
+	string file_name;
 
 	SOCKET sock;
 	sockaddr_in dest_addr;
@@ -86,11 +89,12 @@ public:
 	bool Connect();
 	bool Disconnect();
 	bool Update();
-	int send_buff();
+	int send_buff(int i = size_buff);
 	int receive();
 	void UploadFile(string puth_name, a type_access, vector<string> users = {});
 	//DWORD WINAPI UploadFileThread(LPVOID param);
-	bool DownloadFile(string name, string puth);
+	bool DownloadFile(string name);
+	//DWORD WINAPI DownloadFileThread(LPVOID param);
 	void Exit();
 
 #pragma endregion
