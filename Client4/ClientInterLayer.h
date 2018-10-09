@@ -23,6 +23,7 @@ public:
 	string IP = "127.0.0.1";
 	int name;
 	vector<string> files = {};
+	vector<string> loading_files = {};
 	vector<string> users = {};
 	list <string> log;
 	string puth = "D:\\Client\\";
@@ -57,9 +58,6 @@ public:
 #pragma endregion
 
 #pragma region Get- и set- методы
-private:
-	//bool clean_check();
-
 public:
 	ClientInterLayer();
 	c Status();
@@ -68,6 +66,7 @@ public:
 	bool isConnected();
 	bool isAvalible();
 	vector<string> getFiles();
+	vector<string> getLoadingFiles();
 	vector<string> getUsers();
 	void pushLog(string message);
 	string popLog();
@@ -80,9 +79,6 @@ public:
 #pragma endregion
 
 #pragma region Логика работы клиента
-private:
-
-
 public:
 	bool Login(string IP);
 	bool Logout();
@@ -92,6 +88,7 @@ public:
 	int send_buff(int i = size_buff);
 	int receive();
 	void UploadFile(string puth_name, a type_access, vector<string> users = {});
+	void ReuploadFile(string name);
 	//DWORD WINAPI UploadFileThread(LPVOID param);
 	bool DownloadFile(string name);
 	//DWORD WINAPI DownloadFileThread(LPVOID param);

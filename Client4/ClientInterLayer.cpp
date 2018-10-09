@@ -62,6 +62,11 @@ vector<string> ClientInterLayer::getFiles()
 	return files;
 }
 
+vector<string> ClientInterLayer::getLoadingFiles()
+{
+	return loading_files;
+}
+
 vector<string> ClientInterLayer::getUsers()
 {
 	return users;
@@ -115,6 +120,7 @@ void ClientInterLayer::setEndLoad()
 //#pragma region Логика работы клиента
 DWORD WINAPI UploadFileThread(LPVOID param);
 DWORD WINAPI DownloadFileThread(LPVOID param);
+DWORD WINAPI ReuploadFileThread(LPVOID param);
 
 bool ClientInterLayer::Login(string new_IP)
 {
@@ -245,6 +251,25 @@ bool ClientInterLayer::Update()
 	}
 
 	if (!receive()) return false;
+	loading_files.clear();
+	while (strcmp(buff, "done") != 0)
+	{
+		int i = 0;// , j = 0;
+		while (buff[i] != '*')
+		{
+			string s = "";
+			while (buff[i] != '|')
+			{
+				s += buff[i];
+				i++;
+			}
+			loading_files.push_back(s);
+			i++;
+		}
+		if (!receive()) return false;
+	}
+
+	if (!receive()) return false;
 	users.clear();
 	while (strcmp(buff, "done") != 0)
 	{
@@ -349,7 +374,7 @@ DWORD WINAPI UploadFileThread(LPVOID param)
 	client->file_size = ftell(file);
 	fseek(file, 0, SEEK_SET);
 
-	itoa(client->file_size, client->buff, 10);
+	ltoa(client->file_size, client->buff, 10);
 	client->send_buff();
 	client->pos = 0;
 
@@ -538,6 +563,119 @@ DWORD WINAPI DownloadFileThread(LPVOID param)
 		client->pushLog("Сервер прислал ошибочные данные уже после загрузки файла");
 		strcpy(client->buff, "error");
 		client->send_buff();
+		ReleaseMutex(client->hMutex_Users_Files);
+		return false;
+	}
+	return 0;
+}
+
+void ClientInterLayer::ReuploadFile(string name)
+{
+	client = this;
+	client->file_name = name;
+	DWORD thID;
+	CreateThread(NULL, NULL, ReuploadFileThread, NULL, NULL, &thID);
+}
+
+DWORD WINAPI ReuploadFileThread(LPVOID param)
+{
+	WaitForSingleObject(client->hMutex_Users_Files, INFINITE);
+	EnterCriticalSection(&client->cs_pos);
+	client->end_load = false;
+	client->pause_load = false;
+	client->pos = 0;
+	client->file_size = 1;
+	LeaveCriticalSection(&client->cs_pos);
+	FILE * file;
+	file = fopen((client->puth + client->file_name).c_str(), "rb+");
+	if (file == NULL) { client->pushLog("Ошибка! Файл не найден. Отправка невозможна"); client->end_load = true; ReleaseMutex(client->hMutex_Users_Files); return false; }
+	strcpy(client->buff, "reupload|");
+	strcat(client->buff, client->file_name.c_str());
+	strcat(client->buff, "|*");
+	client->send_buff();
+
+	if (!client->receive()) { client->pushLog("Ошибка сокета, загрузка прервана"); fclose(file); client->end_load = true; ReleaseMutex(client->hMutex_Users_Files); return false; }
+	if (strcmp(client->buff, "ready") != 0) { client->pushLog("Файл невозможно загрузить! Сервер ответил: "); client->pushLog(client->buff); fclose(file); strcpy(client->buff, "error"); client->send_buff(); client->end_load = true; ReleaseMutex(client->hMutex_Users_Files); return false; }
+
+	//а теперь самое важное - отправка файла
+	EnterCriticalSection(&client->cs_pos);
+	fseek(file, 0, SEEK_END);
+	client->file_size = ftell(file);
+
+	ltoa(client->file_size, client->buff, 10);
+	client->send_buff();
+	
+	if (!client->receive()) { client->pushLog("Ошибка сокета, загрузка прервана"); fclose(file); client->end_load = true; ReleaseMutex(client->hMutex_Users_Files); return false; }
+	client->pos = atol(client->buff);
+	fseek(file, client->pos, SEEK_SET);
+
+	//start_block = 0;
+	//clean_check();
+	for (; client->pos < client->file_size; )
+	{
+		LeaveCriticalSection(&client->cs_pos);
+		for (int i = 0; i < size_buff; i++)
+			client->buff[i] = '\0';
+		fread(&client->buff, sizeof(client->buff), 1, file);
+		if (client->pos + size_buff > client->file_size)
+		{
+			client->send_buff(client->file_size - client->pos);
+		}
+		else
+		{
+			client->send_buff();
+		}
+		if (!client->receive()) { client->pushLog("Ошибка сокета, загрузка прервана"); fclose(file); client->end_load = true; ReleaseMutex(client->hMutex_Users_Files); return false; }
+		if (strcmp(client->buff, "ok")) { client->pushLog("Нельзя продолжить загрузку: сервер ответил отрицательно"); fclose(file); client->end_load = true; strcpy(client->buff, "error"); client->send_buff(); ReleaseMutex(client->hMutex_Users_Files); return false; }
+
+		//вычислить контрольную сумму, пока просто pause/next
+		//добавить pause
+
+		strcpy(client->buff, "next");
+		client->send_buff();
+		if (!client->receive()) { client->pushLog("Ошибка сокета, загрузка прервана"); fclose(file); client->end_load = true; ReleaseMutex(client->hMutex_Users_Files); return false; }
+
+		//Сервер « файл « Клиент
+		//получил « файл « прочитал
+		//посчитал » контроль » получил
+		//записал « подтвердил « сравнил
+		//отправил » подтвердил » сдвинул
+
+		EnterCriticalSection(&client->cs_pos);
+		if (!strcmp(client->buff, "next"))
+		{
+			if (client->pos + size_buff > client->file_size)
+			{
+				client->pos += client->file_size - client->pos;//загружаем следующий блок
+			}
+			else
+			{
+				client->pos += sizeof(client->buff);//загружаем следующий блок
+			}
+		}
+		else if (!strcmp(client->buff, "repeat"))
+			fseek(file, client->pos, SEEK_SET); //повторяем загрузку этого блока
+		else
+		{
+			client->pushLog("Нельзя продолжить загрузку: сервер ответил отрицательно"); fclose(file); client->end_load = true; strcpy(client->buff, "error"); client->send_buff(); LeaveCriticalSection(&client->cs_pos); ReleaseMutex(client->hMutex_Users_Files); return false;
+		}
+	}
+	client->end_load = true;
+	LeaveCriticalSection(&client->cs_pos);
+
+	fclose(file);
+	strcpy(client->buff, "end");
+	client->send_buff();
+	if (!client->receive()) { client->pushLog("Ошибка сокета после загрузки файла"); ReleaseMutex(client->hMutex_Users_Files); return false; }
+	if (!strcmp(client->buff, "end"))
+	{
+		client->pushLog("Файл загружен");
+		ReleaseMutex(client->hMutex_Users_Files);
+		return true;
+	}
+	else
+	{
+		client->pushLog("Сервер прислал ошибочные данные уже после загрузки файла");
 		ReleaseMutex(client->hMutex_Users_Files);
 		return false;
 	}
